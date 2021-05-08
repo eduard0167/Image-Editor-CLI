@@ -1,0 +1,72 @@
+// MITROI EDUARD IONUT 312CA
+
+Programul incepe prin citirea instructiunii initiala, dupa care se intra 
+intr-un loop care se va opri in momentul in care este introdusa comanda
+EXIT.
+Programul va intoarce pentru fiecare operatiune introdusa:
+
+	-Invalid command - operatiune gresita
+
+	-No image loaded - operatiune corecta (diferita de load) fara a
+	avea salvata o imagine in memorie
+	
+	- Un output predeterminat pentru o instructiune corecta
+	
+Instructiunile disponibile sunt:
+
+	-LOAD - daca fisierul dat poate fi deschis, se va salva in memorie
+	imaginea (matrici unsigned char) si datele despre imagine (format,
+	latime, inaltime, valoare maxima). Initial, fisierul este deschis in
+	format text pentru a extrage informatiile legate de format, dupa care
+	in functie de acesta, realizam citirea imaginii in sine in mod text sau
+	binar.
+	Pentru a evita scrierea de cod duplicat, am ales sa memorez atat pentru
+	imaginile grayscale, cat si cele color, 3 matrici R(ed), G(reen), 
+	B(lue). Pentru imaginile grayscale, cele 3 sunt egale. 
+	Daca a fost incarcata o imagine anterior, aceasta este eliberata din
+	memorie inclusiv daca LOAD esueaza.
+	
+	-SELECT - sunt selectate coordonatele [x1, y1] si (x2, y2). Daca sunt
+	introduse coordonate invalide, se va ramane la selectia anterioara.
+	
+	-SELECT ALL - este select intreaga imagine ( [x1, y1] si (x2, y2) devin
+	[0, 0], respectiv (inaltimea imaginii, latimea imaginii)
+	
+	-ROTATE - roteste intreaga imaginea sau selectia curenta daca aceasta
+	este patratica.
+	Pentru a realiza rotirea am utilizat 3 matrici auxiliare in care am 
+	retinut imaginea rotita, dupa care am egalat imaginea/selectia din 
+	imaginea cu imaginea initiala.
+	In cazul in care aveam ROTATE +-90/+-270 pentru intreaga imagine,
+	dimensiunile imaginii erau interschimbate. Pentru cazul +-180, acestea
+	nu se modificau, motiv pentru care am folosit functia de 
+	rotate_selection pentru a nu rescrie codul.
+	De asemenea, cele patru cazuri +-90/+-270 le-am restrans la 2, 
+	rotate 90 fiind egal cu rotate -270, iar rotate -90 fiind egal cu 
+	rotate 270.
+	
+	-CROP - decupeaza imaginea la imagine aflata in coordonatele selectate.
+	Pentru a realiza instructiunea CROP, am folosit acelasi principiu 
+	folosit la SELECT (utilizarea matricilor auxiliare).
+	
+	-GRAYSCALE / SEPIA - cele doua sunt foarte asemanatoare, diferenta
+	regasindu-se doar la formulele utilizate.
+	Pentru a realiza calculele, am utilizat o variabila double si valorile
+	pixelilor cu cast la double. La final, noile valorile ale pixelilor au
+	fost date valoarea finala rotunjita a variabilei utilizate.
+	Pentru SEPIA, daca noua valoarea a unui pixel era mai mare decat 
+	valoarea maxima a imaginii, pixelul ramanea cu valoarea maxima a 
+	imaginii.
+	
+	- SAVE - Salvarea se realizeza in mod similar cu incarcarea imaginii:
+	fisierul este deschis in mod text pentru a scrie descrierea imaginii,
+	dupa care in functie de format, sa realizitea scrie in fisier a 
+	imaginii in format text/binar.
+	Pentru imaginile grayscale, se va salva doar matricea G in fisierul generat
+	de noua imagine, in timp ce pentru imaginile color, vor fi salvate pixelii 
+	din cele trei matrici R, G, B.
+	
+	-EXIT - incheie programul si elibereaza memoria
+	
+	
+	 
